@@ -13,8 +13,12 @@ $(document).ready(function() {
         var address = web3.eth.accounts[0];
 
         web3.version.getNetwork((err, netId) => {
-            if ( netId == options.network || address != null ) {
-                init(address, options);
+            if ( netId == options.network ) {
+                if (address){
+                    init(address, options);
+                }else{
+                    error();
+                }
             }else{
                 error();
             }
@@ -36,6 +40,11 @@ function init(address, options) {
 
     if (function_name.slice(-1) == '_') {
         function_name = function_name.slice(0, -1);  
+    }
+
+    if (function_name == '_app_install'){
+        $('body').html('');
+        window.location.href = '/app/';
     }
 
     if (typeof(window[function_name]) === "function"){
@@ -296,6 +305,19 @@ function _app_me(contract, address, options) {
 
 function _app_install() {
     return;
+}
+
+function error() {
+    var path = window.location.pathname;
+
+    if (path.slice(-1) == '/') {
+        path = path.slice(0, -1);
+    }
+
+    if ( path !== '/app/install' && path !== '' ){
+        $('body').html('');
+        window.location.href = '/app/install';
+    }
 }
 
 // Commands for ipfs to run from api
