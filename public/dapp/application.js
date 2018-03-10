@@ -1,9 +1,9 @@
 $(document).ready(function() {
     var options = {
-        "network": "3",
-        "mode": "dev",
-        "ipfs_host": "localhost",
-        "ipfs_port": 5001,
+        "network": "3", //1 for main eth
+        "mode": "dev", //dev, production
+        "ipfs_host": "localhost", //ipfs node with activated public & get
+        "ipfs_port": 5001, //ipfs node port
         "ipfs_public_host": "ipfs.io/ipfs/"
     };
 
@@ -40,11 +40,6 @@ function init(address, options) {
 
     if (function_name.slice(-1) == '_') {
         function_name = function_name.slice(0, -1);  
-    }
-
-    if (function_name == '_app_install'){
-        $('body').html('');
-        window.location.href = '/app/';
     }
 
     if (typeof(window[function_name]) === "function"){
@@ -304,6 +299,9 @@ function _app_me(contract, address, options) {
 }
 
 function _app_install() {
+    $('body').html('');
+    window.location.href = '/app/';
+
     return;
 }
 
