@@ -247,13 +247,15 @@ function _app_me(contract, address, options) {
 
                             form.append('<p align="center" style="margin-top: 25px;"><img src="/assets/img/loading.gif" width="35px"><br/> Please wait for your transaction to be mined. </p>');
 
-                            setInterval(function(){
-                                web3.eth.getTransaction(result, function(error, result){
-                                    if (result.blockNumber) {
-                                        window.location.href = '/app/me#edit-form';
-                                    }
-                                });
-                            }, 5000);
+							var checker = setInterval(function(){
+							    web3.eth.getTransaction(result, function(error, result){
+							        if (result.blockNumber) {
+							            window.location.href = '/app/me#edit-form';
+							            form.find('.loading-msg').remove();
+							            clearInterval(checker);
+							        }
+							    });
+							}, 5000);
                         });
                     });
                 };
@@ -281,12 +283,14 @@ function _app_me(contract, address, options) {
                         return;
                     }
 
-                    form.append('<p align="center" style="margin-top: 25px;"><img src="/assets/img/loading.gif" width="35px"><br/> Please wait for your transaction to be mined. </p>');
+                    form.append('<p class="loading-msg" align="center" style="margin-top: 25px;"><img src="/assets/img/loading.gif" width="35px"><br/> Please wait for your transaction to be mined. </p>');
 
-                    setInterval(function(){
+                    var checker = setInterval(function(){
                         web3.eth.getTransaction(result, function(error, result){
                             if (result.blockNumber) {
                                 window.location.href = '/app/me#edit-form';
+                                form.find('.loading-msg').remove();
+                                clearInterval(checker);
                             }
                         });
                     }, 5000);
